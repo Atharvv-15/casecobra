@@ -17,6 +17,11 @@ import {formatPrice} from "@/lib/utils"
 import {BASE_PRICE} from '@/config/products'
 import { useUploadThing } from "@/lib/uploadthing"
 import { useToast } from "@/components/ui/use-toast"
+import { useMutation } from "@tanstack/react-query"
+import { SaveConfigArgs, saveConfig as _saveConfig } from "./actions"
+import { useRouter } from "next/navigation"
+import { CaseMaterial } from "@prisma/client"
+
 
 interface DesignConfiguratorProps {
     configId : string
@@ -29,6 +34,25 @@ interface DesignConfiguratorProps {
 
 const DesignConfigurator = ({configId, imageUrl, imageDimensions}: DesignConfiguratorProps) => {
     const {toast} = useToast()
+    const router = useRouter()
+
+    const {mutate: saveConfig} = useMutation({
+        mutationKey: ['saveConfig'],
+        mutationFn: async (args: SaveConfigArgs) => {
+            await Promise.all([saveConfiguration(), _saveConfig(args)])
+        },
+        onError: () => {
+            toast({
+                title: "Something went wrong",
+                description: "There was an error on our end. Please try again.",
+                variant: "destructive",
+            })
+        },
+        onSuccess: () => {
+            router.push(`/configure/preview?id=${configId}`)
+        },
+    })
+
     const [options, setOptions] = useState<{
         color : (typeof COLORS)[number]
         model : (typeof MODELS.options)[number]
@@ -280,10 +304,17 @@ const DesignConfigurator = ({configId, imageUrl, imageDimensions}: DesignConfigu
                         <p className="font-medium whitespace-nowrap">
                         {formatPrice((BASE_PRICE + options.finish.price + options.material.price)/100)}
                         </p>
-                        <Button size={"sm"} className="w-full" onClick={() => saveConfiguration()}>
+                        <Button size={"sm"} className="w-full" onClick={() => saveConfig({
+                            configId,
+                            color: options.color.value,
+                            finish: options.finish.value,
+                            material: options.material.value as CaseMaterial,
+                            model: options.model.value,
+                        })}>
                             Continue
                             <ArrowRight className="ml-1.5 h-4 w-4 inline"/>
                         </Button>
+        
                     </div>
                 </div>
             </div>

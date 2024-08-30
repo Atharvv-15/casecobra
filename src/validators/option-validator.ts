@@ -61,13 +61,13 @@ export const MODELS = {
 } as const
 
 export const MATERIALS = {
-    name: "materials",
+    name: "material",
     options: [
         {
             label: "Silicon",
             value: "silicon",
             description: "undefined",
-            price : PRODUCT_PRICES.material.silicone,
+            price : PRODUCT_PRICES.material.silicon,
         },
         {
             label: "Soft Polycarbonate",
