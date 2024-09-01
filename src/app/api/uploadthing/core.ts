@@ -1,7 +1,8 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { z } from "zod";
 import sharp from "sharp";
-import { db } from "/Users/atharvakharage/Documents/Web-Dev/casecobra-dev/src/db"
+import { db } from "@/db";
+ 
  
  
 const f = createUploadthing();

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
-import { db } from "/Users/atharvakharage/Documents/Web-Dev/casecobra-dev/src/db"
 import DesignConfigurator from "./DesignConfigurator"
+import { db } from "@/db"
 
 interface PageProps {
     searchParams : {
