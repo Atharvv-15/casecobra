@@ -30,7 +30,7 @@ const Steps = () => {
 
                 const imgPath = `/snake-${i+1}.png`
 
-                return <li className="relative overflow-hidden lg:flex-1">
+                return <li key={i} className="relative overflow-hidden lg:flex-1">
                     <div>
                         <span className={cn("absolute left-0 top-0 h-full w-1 bg-zinc-400 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full", 
                             {
