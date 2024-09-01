@@ -15,13 +15,16 @@ import { url } from 'inspector'
 import { useRouter } from 'next/navigation'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { useToast } from '@/components/ui/use-toast'
+import LoginModal from '@/components/LoginModal'
 
 
 
 const DesignPreview = ({configuration}: {configuration: Configuration}) => {
     const[showConfetti, setShowConfetti] = useState(false)
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
     const router = useRouter()
     const {toast} = useToast()
+   
 
     const {color, model, material, finish} = configuration
     const tw = COLORS.find(c => c.value === color)?.tw
@@ -55,16 +58,16 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
         }
     })
 
-    // const handleCheckout = () => {
-    //     if (user) {
-    //       // create payment session
-    //       createPaymentSession({ configId: id })
-    //     } else {
-    //       // need to log in
-    //       localStorage.setItem('configurationId', id)
-    //       setIsLoginModalOpen(true)
-    //     }
-    //   }
+    const handleCheckout = () => {
+        if (user) {
+          // create payment session
+          createPaymentSession({ configId: id })
+        } else {
+          // need to log in
+          localStorage.setItem('configurationId', id)
+          setIsLoginModalOpen(true)
+        }
+      }
 
     useEffect(() => {
         setShowConfetti(true)
@@ -84,6 +87,9 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
                 <div className='sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2'>
                     <Phone className={cn(`bg-${tw}`)} imgSrc={configuration.croppedImageUrl!}/>
                 </div>
+
+                <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen}/>
+
                 <div className='mt-6 sm:col-span-9 sm:mt-0 md:row-end-1'>
                     <h3 className="text-3xl font-bold tracking-tight text-gray-900">Your {modelLabel} Case</h3>
                     <div className="mt-3 flex items-center gap-1.5 text-base">
@@ -150,7 +156,7 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
                             </div>
                         </div>
                         <div className='mt-8 flex justify-end pb-12'>
-                            <Button onClick={() => createPaymentSession({configId: configuration.id})} className='px-4 sm:px-6 lg:px-8'>Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/></Button>
+                            <Button onClick={() => handleCheckout()} className='px-4 sm:px-6 lg:px-8'>Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/></Button>
                         </div>
                     </div>
                 </div>
