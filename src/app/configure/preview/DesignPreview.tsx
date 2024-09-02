@@ -42,7 +42,7 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
     }
     const totalPriceFormatted = formatPrice(totalPrice / 100)
 
-    const {mutate: createPaymentSession} = useMutation({
+    const {mutate: createPaymentSession, isPending} = useMutation({
         mutationKey: ['get-checkout-session'],
         mutationFn: createCheckoutSession,
         onSuccess: ({url}) => {
@@ -82,15 +82,15 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
                     <Confetti active={showConfetti} config = {{elementCount: 200, spread: 90}} />
             </div>
 
-            <div className='mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 
+            <div className='flex flex-col items-center mt-20 md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 
             md:gap-x-8 lg:gap-x-12'>
-                <div className='sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2'>
-                    <Phone className={cn(`bg-${tw}`)} imgSrc={configuration.croppedImageUrl!}/>
+                <div className='md:col-span-3 md:row-span-2 md:row-end-2'>
+                    <Phone className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")} imgSrc={configuration.croppedImageUrl!}/>
                 </div>
 
                 <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen}/>
 
-                <div className='mt-6 sm:col-span-9 sm:mt-0 md:row-end-1'>
+                <div className='mt-6 sm:col-span-9 md:row-end-1'>
                     <h3 className="text-3xl font-bold tracking-tight text-gray-900">Your {modelLabel} Case</h3>
                     <div className="mt-3 flex items-center gap-1.5 text-base">
                         <Check className='h-4 w-4 text-green-500'/>
@@ -156,7 +156,7 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
                             </div>
                         </div>
                         <div className='mt-8 flex justify-end pb-12'>
-                            <Button onClick={() => handleCheckout()} className='px-4 sm:px-6 lg:px-8'>Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/></Button>
+                            <Button isLoading={isPending} disabled={isPending} loadingText="Just a moment..." onClick={() => handleCheckout()} className='px-4 sm:px-6 lg:px-8'>Check out <ArrowRight className='h-4 w-4 ml-1.5 inline'/></Button>
                         </div>
                     </div>
                 </div>
