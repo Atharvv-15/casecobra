@@ -11,8 +11,12 @@ const Page = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const configurationId = localStorage.getItem('configurationId')
-        if(configurationId) setConfigId(configurationId)
+        console.log("Inside useEffect")
+        const configurationId = localStorage.getItem('configurationIId')
+        if(configurationId){
+            setConfigId(configurationId)
+            console.log("configId", configurationId)
+        }
     }, [])
 
     const { data } = useQuery({
