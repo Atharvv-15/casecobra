@@ -12,7 +12,7 @@ const Page = () => {
 
     useEffect(() => {
         console.log("Inside useEffect")
-        const configurationId = localStorage.getItem('configurationIId')
+        const configurationId = sessionStorage.getItem('configurationId')
         if(configurationId){
             setConfigId(configurationId)
             console.log("configId", configurationId)
@@ -29,7 +29,7 @@ const Page = () => {
 
     if(data?.success) {
         if(configId) {
-            localStorage.removeItem('configurationId')
+            sessionStorage.removeItem('configurationId')
             router.push(`/configure/preview?id=${configId}`)
         }else{
             router.push('/')
