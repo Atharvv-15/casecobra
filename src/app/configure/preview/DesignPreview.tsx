@@ -65,7 +65,7 @@ const DesignPreview = ({configuration}: {configuration: Configuration}) => {
         } else {
           // need to log in
           sessionStorage.setItem('configurationId', id)
-        //   setIsLoginModalOpen(true)
+          setIsLoginModalOpen(true)
         }
       }
 
